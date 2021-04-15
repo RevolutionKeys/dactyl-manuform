@@ -26,8 +26,8 @@
 (def first-15u-row 0)                   ; controls which should be the first row to have 1.5u keys on the outer column
 (def last-15u-row 3)                    ; controls which should be the last row to have 1.5u keys on the outer column
 
-(def extra-row true)                   ; adds an extra bottom row to the outer columns
-(def inner-column true)                ; adds an extra inner column (two less rows than nrows)
+(def extra-row false)                   ; adds an extra bottom row to the outer columns
+(def inner-column false)                ; adds an extra inner column (two less rows than nrows)
 (def thumb-style "cf")                ; toggles between "default", "mini", and "cf" thumb cluster
 (def holder-type "blackpill-f401-gx12") ;toggles between "promicro-jack" and "blackpill-f401-gx12"
 
@@ -286,9 +286,9 @@
   (apply union
          (conj (for [column columns
                row rows
-               :when (or (and (= column 0) (< row 3))
-                         (and (.contains [1 2] column) (< row 4))
-                         (.contains [3 4 5 6] column))]
+               :when (or (and (= column 0) (< row 4))
+                         (and (.contains [1 2 3] column) (< row 5))
+                         (and (.contains [4 5 6] column) (< row 4)))]
                  (key-place column row keyhole-fill))
                (list (key-place 0 0 keyhole-fill)
                  (key-place 0 1 keyhole-fill)
@@ -1359,7 +1359,7 @@
     (def screw-offset-bl [9 4 0])
     (def screw-offset-bm [13 -7 0]))
 (when (and (= thumb-style "cf") (false? inner-column))
-    (def screw-offset-bl [-7.7 2 0])
+    (def screw-offset-bl [-9 3 0])
     (def screw-offset-bm [13 -7 0]))
 (when (and (= thumb-style "mini") inner-column)
     (def screw-offset-bl [14 8 0])
@@ -1392,6 +1392,7 @@
 ; Wall Thickness W:\t1.65
 (def screw-insert-outers (screw-insert-all-shapes (+ screw-insert-bottom-radius 1.65) (+ screw-insert-top-radius 1.65) (+ screw-insert-height 1)))
 (def screw-insert-screw-holes  (screw-insert-all-shapes 1.7 1.7 350))
+(def screw-insert-screw-countersunk-holes  (screw-insert-all-shapes 2.8 2.8 350))
 
 ; Connectors between outer column and right wall when 1.5u keys are used
 (def pinky-connectors
@@ -1466,25 +1467,64 @@
 
 (spit "things/right-plate.scad"
       (write-scad
-        (extrude-linear
-          {:height 2.6 :center false}
-          (project
-            (difference
-              (union
-                key-holes
-                key-holes-inner
-                pinky-connectors
-                extra-connectors
-                connectors
-                inner-connectors
-                thumb-type
-                thumb-connector-type
-                case-walls
-                thumbcaps-fill-type
-                caps-fill
-                screw-insert-outers)
-              (translate [0 0 -10] screw-insert-screw-holes))))))
-
+        (difference
+          (extrude-linear
+            {:height 4 :center false}
+            (project
+              (difference
+                (union
+                  key-holes
+                  key-holes-inner
+                  pinky-connectors
+                  extra-connectors
+                  connectors
+                  inner-connectors
+                  thumb-type
+                  thumb-connector-type
+                  case-walls
+                  thumbcaps-fill-type
+                  caps-fill
+                  screw-insert-outers
+                  )
+                (translate [0 0 -10] screw-insert-screw-holes)
+                )))
+           (translate [0 0 0]
+           (extrude-linear
+            {:height 2 :center false}
+              (project
+                (translate [0 0 0] screw-insert-screw-countersunk-holes)
+              )))
+          )))
+(spit "things/left-plate.scad"
+      (write-scad
+        (difference
+          (extrude-linear
+            {:height 4 :center false}
+            (project
+              (difference
+                (union
+                  key-holes
+                  key-holes-inner
+                  pinky-connectors
+                  extra-connectors
+                  connectors
+                  inner-connectors
+                  thumb-type
+                  thumb-connector-type
+                  case-walls
+                  thumbcaps-fill-type
+                  caps-fill
+                  screw-insert-outers
+                  )
+                (translate [0 0 -10] screw-insert-screw-holes)
+                )))
+           (translate [0 0 2]
+           (extrude-linear
+            {:height 2 :center false}
+              (project
+                (translate [0 0 0] screw-insert-screw-countersunk-holes)
+              )))
+          )))
 (spit "things/right-plate-laser.scad"
       (write-scad
        (cut

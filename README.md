@@ -12,7 +12,9 @@ This is a fork of the [Dactyl-ManuForm](https://github.com/tshort/dactyl-keyboar
 - Toggle between using the default thumb cluster, the mini thumb cluster designed by [l4u](https://github.com/l4u/dactyl-manuform-mini-keyboard), and a new thumb cluster.
 - This new thumb cluster uses the same keycaps as the default, but is more compact. The thumb only has to move one position left or right from its neutral position to reach all the keys. 
 - Removable controller board / TRRS jack holder as a separate part. This holder is then friction fit into a cutout on the back wall of the case. Designed for common TRRS breakout boards. 
-- Models for both pro-micro and elite-c holders in the [things/](things/) directory. 
+- Models for pro-micro, elite-c and blackpill-F401 holders in the [things/](things/) directory. 
+- OpenScad file for blackpill-F401 with GX12 connector holder
+- Toggle between pro-micro/elite-c with TRRS jack and blackpill-F401 with GX12 connector. 
 
 ## Generate OpenSCAD and STL models
 

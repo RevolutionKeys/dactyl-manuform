@@ -7,9 +7,9 @@ solder_cutout=4.3;
 usb_conn_width=10;
 usb_conn_height=4;
 notch_offset=1.35;
-notch_width=0.95;
-notch_depth=1.1;
-hold_tab_offset=4.2;
+notch_width=1.1;
+notch_depth=0.95;
+hold_tab_offset=4.05;
 hold_tab_width=wall_thickness;
 hold_tab_depth=wall_thickness;
 union(){

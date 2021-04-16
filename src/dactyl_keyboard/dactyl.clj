@@ -273,9 +273,8 @@
   (apply union
          (conj (for [column columns
                row rows
-               :when (or (and (= column 0) (< row 3))
-                         (and (.contains [1 2] column) (< row 4))
-                         (.contains [3 4 5 6] column))]
+               :when (or (and (.contains [0 1 4 5] column) (< row 4))
+                         (.contains [2 3] column))]
                (->> (sa-cap (if (and pinky-15u (= column lastcol) (not= row lastrow)) 1.5 1))
                     (key-place column row)))
                (list (key-place 0 0 (sa-cap 1))
